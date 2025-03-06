@@ -1,0 +1,1 @@
+0 0 23 * * php email_sender.php >> /log/cron.log 2>&1
