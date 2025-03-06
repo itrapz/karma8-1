@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 
 $sql = 'CREATE DATABASE IF NOT EXISTS ' . $database;
 if ($conn->query($sql) === TRUE) {
-    echo "Database created successfully";
+    echo 'Database created successfully' . PHP_EOL;
 }
 
 $conn->select_db($database);

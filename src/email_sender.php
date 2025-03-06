@@ -1,7 +1,7 @@
 <?php
 require_once('connect_services.php');
 
-const WORKERS = 50;
+const WORKERS = 30;
 const SEND_DAY_LIMIT_FIRST = 3;
 const SEND_DAY_LIMIT_LAST = 1;
 const TIME_AMOUNT= 60 * 60 * 24; //1 day in seconds, look data for the 1 day after th point
@@ -65,7 +65,7 @@ init_threads($callbacks);
 
 $conn->close();
 
-if ($argv[1] !== 'nowait') {
+if (isset($argv[1]) && $argv[1] !== 'nowait') {
     $repeat = true;
     $percent = 0;
 
