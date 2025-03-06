@@ -64,11 +64,10 @@ foreach (range(1, WORKERS) as $threadNumber) {
 init_threads($callbacks);
 
 $conn->close();
+
 if ($argv[1] !== 'nowait') {
     $repeat = true;
-
     $percent = 0;
-    $progress = 0;
 
     $redis->get('handled_tasks');
 
