@@ -1,5 +1,5 @@
 <?php
-const NUM_OF_RECORDS = 1000;
+const NUM_OF_RECORDS = 10000;
 const SUBSCRIPTION_GAP = 60 * 60 * 24 * 3; //3 days
 const PERCENT_OF_CONFIRMED_EMAILS = 15;
 const PERCENT_OF_REST_SUBSCRIBED = 6.25;
@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 
 $sql = 'CREATE DATABASE IF NOT EXISTS ' . $database;
 if ($conn->query($sql) === TRUE) {
-    echo 'Database created successfully' . PHP_EOL;
+    echo 'Database is ready' . PHP_EOL;
 }
 
 $conn->select_db($database);
@@ -43,7 +43,6 @@ $values = [];
 $query = 'INSERT INTO users (username, email, confirmed, valid, validts, checked) VALUES %s';
 
 for ($i = 0; $i < NUM_OF_RECORDS; $i++) {
-
     $isConfirmedEmail = isTrueWithProbability(PERCENT_OF_CONFIRMED_EMAILS);
     $isValidEmail = $isConfirmedEmail ? 1 : (isTrueWithProbability(PERCENT_OF_REST_SUBSCRIBED) ? 1 : 0);
     $validTs = $isValidEmail ? time() + SUBSCRIPTION_GAP : 0;
@@ -54,7 +53,7 @@ for ($i = 0; $i < NUM_OF_RECORDS; $i++) {
         $isConfirmedEmail,
         $isValidEmail,
         $validTs,
-        $isValidEmail ? 1 : rand(0, 1),
+        rand(0, 1),
     ];
 
     $values[] = "'" . implode("', '", $params) . "'";
@@ -63,7 +62,7 @@ for ($i = 0; $i < NUM_OF_RECORDS; $i++) {
 $stmt = $conn->prepare(sprintf($query, '(' . implode('),(', $values) . ')'));
 
 if ($stmt->execute()) {
-    echo 'New records inserted successfully!' . PHP_EOL;
+    echo 'New records inserted successfully' . PHP_EOL;
 } else {
     echo 'Error: ' . $stmt->error . PHP_EOL;
 }

@@ -17,7 +17,7 @@ while ($needToWait) {
     if ($job) {
         $params = json_decode($job, true);
         echo date('d.m.Y H:i:s', time()) . ' | #id: ' . $params['id'] . ' Processing ' . PHP_EOL;
-        process_email($params, $conn);
+        process_email($params, $conn, $redis);
         $redis->incr('handled_tasks');
         echo date('d.m.Y H:i:s', time()) . ' | #id: ' . $params['id'] . ' Sent' . PHP_EOL;
     } else {
@@ -27,15 +27,18 @@ while ($needToWait) {
         if ($waitingCycles > WAITING_CYCLES) {
             $needToWait = false;
             echo date('d.m.Y H:i:s', time()) . ' | No tasks to handle. Shutting down.'. PHP_EOL;
+            $conn->close();
         }
     }
 }
 
-function process_email(array $params, mysqli $conn) {
+function process_email(array $params, mysqli $conn, Redis $redis) {
     if ($params['checked'] === 0) {
 
         $valid = check_email($params['email']);
         set_check_user($valid, $params['id'], $conn);
+        $redis->incr('spent_money');
+        echo date('d.m.Y H:i:s', time()) . sprintf(' | User #%d email checked. Money spent.', $params['id']) . PHP_EOL;
     } else {
         $valid = $params['valid'];
     }

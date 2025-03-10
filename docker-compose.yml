@@ -17,7 +17,7 @@ services:
         build: .
         container_name: php-fpm
         volumes:
-            - ./src:/var/www/html
+            - ./src:/var/cmd
         environment:
             - MYSQL_HOST=${MYSQL_HOST}
             - MYSQL_DATABASE=${MYSQL_DATABASE}
