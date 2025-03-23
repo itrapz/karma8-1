@@ -51,7 +51,6 @@ foreach (range(1, WORKERS) as $threadNumber) {
                 $redis->lPush($queue, json_encode($row));
             }
         }
-
         echo 'Chunk #' . $threadNumber . ' all jobs have been sent.' . PHP_EOL;
     };
 
