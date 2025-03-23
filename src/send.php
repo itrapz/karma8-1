@@ -68,9 +68,7 @@ $conn->close();
 if (!isset($argv[1]) || $argv[1] !== 'nowait') {
     $repeat = true;
     $percent = 0;
-
     $redis->get('handled_tasks');
-
     echo "Jobs handled: {$percent}% ({$redis->get('handled_tasks')} / {$jobsCount})";
 
     while ($repeat) {
