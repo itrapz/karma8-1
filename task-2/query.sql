@@ -18,4 +18,4 @@ SELECT u.*
 FROM users u
     JOIN order_data od ON od.user_id = u.id
     JOIN payment_data pd ON pd.user_id = u.id
-WHERE (od.paid_orders / NULLIF(od.unpaid_orders, 0)) > 2 AND (pd.failed_payments / NULLIF(pd.total_payments, 0)) < 0.15;
+WHERE (od.paid_orders / IFNULL(od.unpaid_orders, 0)) > 2 AND (pd.failed_payments / IFNULL(pd.total_payments, 0)) < 0.15;
